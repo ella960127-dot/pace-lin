@@ -52,7 +52,10 @@ function renderHistory(){const root=$('records');root.replaceChildren();const qu
 $('openSetup').onclick=()=>$('setupDialog').showModal();$('closeSetup').onclick=()=>$('setupDialog').close();$('energyInfo').onclick=()=>$('energyDialog').showModal();$('closeEnergy').onclick=()=>$('energyDialog').close();
 $('todayDate').textContent=new Date().toLocaleDateString('zh-TW',{month:'long',day:'numeric',weekday:'short'});
 document.querySelectorAll('[data-filter]').forEach(button=>button.onclick=()=>{historyFilter=button.dataset.filter;document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('selected',b===button);b.setAttribute('aria-pressed',String(b===button));});renderHistory();});
-$('exportAll').onclick=()=>exportCSV(records);$('deleteAll').onclick=()=>{if(records.length&&confirm('永久刪除此裝置全部運動紀錄？')){records=[];persist();renderHistory();}};
+$('exportAll').onclick=()=>{$('exportAlias').value=aliasFilter||$('alias').value.trim();$('exportStatus').textContent='';$('exportDialog').showModal();$('exportAlias').focus();};
+$('closeExport').onclick=()=>$('exportDialog').close();$('cancelExport').onclick=()=>$('exportDialog').close();
+$('exportForm').onsubmit=e=>{e.preventDefault();const alias=$('exportAlias').value.trim();if(!alias){$('exportStatus').textContent='請輸入暱稱或課堂代號。';$('exportAlias').focus();return;}const query=alias.toLocaleLowerCase(),matching=records.filter(r=>String(r.alias||'').trim().toLocaleLowerCase()===query);if(!matching.length){$('exportStatus').textContent=`找不到「${alias}」的紀錄，沒有匯出資料。`;return;}exportCSV(matching);$('exportDialog').close();};
+$('deleteAll').onclick=()=>{if(records.length&&confirm('永久刪除此裝置全部運動紀錄？')){records=[];persist();renderHistory();}};
 $('historyAliasFilter').oninput=()=>{aliasFilter=$('historyAliasFilter').value;renderHistory();};
 $('clearHistoryAlias').onclick=()=>{aliasFilter='';$('historyAliasFilter').value='';try{localStorage.removeItem(PERSON_KEY);}catch{}renderHistory();};
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&session?.state==='running')pause('頁面已離開前景，為避免漏記與錯估已自動暫停。回到頁面後按「繼續」。');});

@@ -3,4 +3,7 @@
 .history-person-filter input{width:150px;min-height:30px;padding:5px 8px;border:1px solid #d9dfd1;border-radius:4px;background:#fff;color:#354333;font:inherit}
 .history-person-filter input:focus{outline:2px solid #aebd9d;outline-offset:1px}
 .clear-history-filter{font-size:10px;color:#7f8c70;padding:6px 8px}
+.export-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.export-actions>button:not(.primary){border:1px solid #d9dfd1;border-radius:5px;padding:8px 14px;font-size:11px}
+.export-actions>.primary{width:auto;min-height:40px;padding:8px 14px;font-size:11px}
 @media(max-width:650px){.historybar{align-items:flex-start}.history-person-filter{flex:1;min-width:170px}.history-person-filter input{width:100%;min-width:0}.historybar>span{width:100%;text-align:right}}
