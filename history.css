@@ -1,0 +1,6 @@
+.historybar{gap:10px;flex-wrap:wrap}
+.history-person-filter{display:flex;align-items:center;gap:7px;color:#7c896d;font-size:10px}
+.history-person-filter input{width:150px;min-height:30px;padding:5px 8px;border:1px solid #d9dfd1;border-radius:4px;background:#fff;color:#354333;font:inherit}
+.history-person-filter input:focus{outline:2px solid #aebd9d;outline-offset:1px}
+.clear-history-filter{font-size:10px;color:#7f8c70;padding:6px 8px}
+@media(max-width:650px){.historybar{align-items:flex-start}.history-person-filter{flex:1;min-width:170px}.history-person-filter input{width:100%;min-width:0}.historybar>span{width:100%;text-align:right}}
