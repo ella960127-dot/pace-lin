@@ -13,6 +13,10 @@ $('heroImage').src=heroImage.src;$('heroImage').alt=heroImage.alt;
 $('imageCredit').replaceChildren();if(heroImage.creditUrl){const creditLink=document.createElement('a');creditLink.href=heroImage.creditUrl;creditLink.target='_blank';creditLink.rel='noopener noreferrer';creditLink.textContent=heroImage.credit;$('imageCredit').append(creditLink);}else $('imageCredit').textContent=heroImage.credit;
 if(heroImage.src.startsWith('https://'))$('heroImage').onerror=()=>{$('heroImage').onerror=null;$('heroImage').src='assets/campus-run.webp';$('heroImage').alt='生成示意：學生在綠蔭步道慢跑';$('imageCredit').textContent='外部照片無法載入，已改用本機情境示意圖';};
 try{localStorage.setItem('campus-move-hero-v1',heroImage.src);}catch{}
+const movementQuotes=['今天多走一步，就是給自己的鼓勵。','不必追趕別人，照自己的步伐前進。','運動不求快，持續就是力量。','每一次出發，都比停在原地更接近目標。','流下的汗水，會變成明天的底氣。','先開始，身體會帶你找到節奏。','慢慢走也很好，方向比速度重要。','把今天的疲憊，走成明天的勇氣。','休息是訓練的一部分，記得聆聽身體。','每一段路，都值得為自己喝采。'];
+let previousQuote='';try{previousQuote=localStorage.getItem('campus-move-quote-v1')||'';}catch{}
+const availableQuotes=movementQuotes.filter(quote=>quote!==previousQuote),dailyQuote=availableQuotes[Math.floor(Math.random()*availableQuotes.length)]||movementQuotes[0];
+$('heroQuote').textContent=`「${dailyQuote}」`;try{localStorage.setItem('campus-move-quote-v1',dailyQuote);}catch{}
 function message(s){$('message').textContent=s;}
 function pinIcon(kind,label){return L.divIcon({className:'map-pin-wrap map-pin-'+kind,html:'<span class="pin-body"><b>'+label+'</b></span>',iconSize:[30,30],iconAnchor:[15,30]});}
 function setTrack(lines){if(route)route.setLatLngs(lines);if(halo)halo.setLatLngs(lines);}
