@@ -6,6 +6,13 @@ let map, route, halo=null, startMarker=null, positionDot, accuracyCircle, target
 let session=null, watch=null, demoTimer=null, wake=null, last=null, lastSignal=0, lines=[], storageOK=true;
 let aliasFilter='';try{aliasFilter=localStorage.getItem(PERSON_KEY)||'';}catch{}
 $('alias').value=aliasFilter;$('historyAliasFilter').value=aliasFilter;
+const heroImages=[{src:'assets/campus-run.webp',alt:'生成示意：學生在綠蔭步道慢跑',credit:'AI 生成情境示意 · 非校園實景'},{src:'assets/track-essentials.webp',alt:'生成示意：跑道旁的跑鞋與運動裝備',credit:'AI 生成情境示意 · 非校園實景'},{src:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Here_They_Come_-_Runners_in_City_Park%2C_New_Orleans.jpg/960px-Here_They_Come_-_Runners_in_City_Park%2C_New_Orleans.jpg',alt:'紐奧良城市公園的跑者',credit:'Bart Everson · CC BY 2.0',creditUrl:'https://commons.wikimedia.org/wiki/File:Here_They_Come_-_Runners_in_City_Park,_New_Orleans.jpg'},{src:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Walking_River_Mountains_Loop_Trail_%28a04683af-d98e-46a6-8573-8f5e353b55c4%29.jpg/960px-Walking_River_Mountains_Loop_Trail_%28a04683af-d98e-46a6-8573-8f5e353b55c4%29.jpg',alt:'步道上的健行者與湖山景色',credit:'Andrew Cattoir / U.S. National Park Service · 公有領域',creditUrl:'https://commons.wikimedia.org/wiki/File:Walking_River_Mountains_Loop_Trail_(a04683af-d98e-46a6-8573-8f5e353b55c4).jpg'}];
+let previousHero='';try{previousHero=localStorage.getItem('campus-move-hero-v1')||'';}catch{}
+const heroChoices=heroImages.filter(image=>image.src!==previousHero),heroImage=heroChoices[Math.floor(Math.random()*heroChoices.length)]||heroImages[0];
+$('heroImage').src=heroImage.src;$('heroImage').alt=heroImage.alt;
+$('imageCredit').replaceChildren();if(heroImage.creditUrl){const creditLink=document.createElement('a');creditLink.href=heroImage.creditUrl;creditLink.target='_blank';creditLink.rel='noopener noreferrer';creditLink.textContent=heroImage.credit;$('imageCredit').append(creditLink);}else $('imageCredit').textContent=heroImage.credit;
+if(heroImage.src.startsWith('https://'))$('heroImage').onerror=()=>{$('heroImage').onerror=null;$('heroImage').src='assets/campus-run.webp';$('heroImage').alt='生成示意：學生在綠蔭步道慢跑';$('imageCredit').textContent='外部照片無法載入，已改用本機情境示意圖';};
+try{localStorage.setItem('campus-move-hero-v1',heroImage.src);}catch{}
 function message(s){$('message').textContent=s;}
 function pinIcon(kind,label){return L.divIcon({className:'map-pin-wrap map-pin-'+kind,html:'<span class="pin-body"><b>'+label+'</b></span>',iconSize:[30,30],iconAnchor:[15,30]});}
 function setTrack(lines){if(route)route.setLatLngs(lines);if(halo)halo.setLatLngs(lines);}
